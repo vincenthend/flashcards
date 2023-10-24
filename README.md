@@ -1,6 +1,6 @@
 # Flashcards
 
-Quick flashcard app for GRE practice
+Vocabulary flashcard app for GRE practice
 
 
 ## Stacks
@@ -9,3 +9,12 @@ Quick flashcard app for GRE practice
 
 
 ## Vocab List Source
+Credits to this [reddit post](https://www.reddit.com/r/GRE/comments/17ei9l6/my_vocab_list)~
+
+## To Be Improved
+- [ ] Some data descriptions is still not well written _(well it's just `=GOOGLETRANSLATE()` on Google Sheets)_
+- [ ] Animations for the flashcards
+- [ ] Quiz Mode
+- [ ] Prettier Config is still messed up
+- [ ] Data loading mechanism
+- [ ] This README file
