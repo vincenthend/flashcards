@@ -1,9 +1,22 @@
 import * as React from 'react'
-import { Card, Typography } from 'antd'
-import { WordData } from '../../types'
+import { Card, Empty, Skeleton, Space, Typography } from 'antd'
+import { Meaning, WordData } from '../../types'
 
 interface Props {
   data: WordData
+}
+
+function MeaningLayout(props: { meaning: Meaning }) {
+  const {meaning} = props
+  return <>
+    <div>
+      <div>
+        <Typography.Text type={'secondary'} style={{fontSize: 14}}>
+          {meaning?.definitions[0].definition}
+        </Typography.Text>
+      </div>
+    </div>
+  </>
 }
 
 function Flashcards(props: Props): JSX.Element {
@@ -14,17 +27,43 @@ function Flashcards(props: Props): JSX.Element {
     setVisible(false)
   }, [data]);
 
-
   return <div>
-    <Card style={{width: '300px', height: '300px'}} bodyStyle={{height: '100%'}}>
-      <div style={{height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+    <Card style={{width: '300px', height: '300px'}}
+      bodyStyle={{height: '100%'}}>
+      <div style={{
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between'
+      }}>
         <div>
-          <div><Typography.Text type={'secondary'} style={{fontSize: 10}}>ID: {data.id}</Typography.Text></div>
-          <Typography.Text strong style={{fontSize: 36}}>{data.word}</Typography.Text>
+          <div><Typography.Text type={'secondary'}
+            style={{fontSize: 10}}>ID: {data.id}</Typography.Text></div>
+          <div>
+            <Typography.Text strong
+              style={{fontSize: 36}}>{data.word}</Typography.Text>
+          </div>
+          <div>
+            <Typography.Text
+              style={{fontSize: 10}}>{data.dictionary?.phonetic}</Typography.Text>
+          </div>
         </div>
 
-        <div onClick={() => setVisible(x => !x)}>
-          {visible ? <Typography.Text type={'secondary'} style={{fontSize: 16}}>{data.description}</Typography.Text> : <div style={{backgroundColor: '#d7d7d7', width: '100%', height: 24}} />}
+        <div onClick={() => setVisible(x => !x)} style={{cursor: 'pointer'}}>
+          <Skeleton loading={!visible}>
+            {data.dictionary ? <>
+                {data.dictionary?.meanings.map((meaning, idx) => <div
+                  key={`${data.id}_${idx}`}
+                  style={{display: 'flex'}}
+                >
+                  <sup style={{marginRight: '8px'}}>{idx + 1}</sup>
+                  <MeaningLayout
+                    meaning={meaning}/>
+                </div>)}
+              </>
+              :
+              <Empty description={'No dictionary data found'}/>}
+          </Skeleton>
         </div>
       </div>
     </Card>
